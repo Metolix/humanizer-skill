@@ -1,0 +1,26 @@
+name: Repository checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check required files
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in README.md LICENSE CONTRIBUTING.md CODE_OF_CONDUCT.md SECURITY.md CHANGELOG.md skill/core.md skill/checklist.md skill/patterns.md adapters/claude/SKILL.md adapters/codex/SKILL.md adapters/generic/INSTRUCTIONS.md docs/research.md docs/evaluation.md tests/cases.md; do
+            test -f "$f"
+          done
+      - name: Check unsupported guarantee language
+        shell: bash
+        run: |
+          set -euo pipefail
+          if grep -RniE 'guaranteed to pass|100% undetectable|bypass (all|every) detector' README.md skill adapters docs examples; then
+            echo "Unsupported detector-evasion guarantee language found."
+            exit 1
+          fi
