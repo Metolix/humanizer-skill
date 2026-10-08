@@ -1,0 +1,6 @@
+{
+  "name": "humanizer",
+  "version": "0.1.0",
+  "description": "A portable writing-quality skill for making AI-assisted prose more natural, specific, purposeful, and consistent with an author's voice.",
+  "skills": "./skills/"
+}
